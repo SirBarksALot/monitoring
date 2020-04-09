@@ -1,0 +1,5 @@
+---
+- name: Generate DH Parameters with a different size (2048 bits)
+  openssl_dhparam:
+    path: "{{ dhparams_path }}"
+    size: 2048

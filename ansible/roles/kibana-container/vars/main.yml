@@ -1,0 +1,19 @@
+kibana_image_name: "kibana:{{ kibana_version }}"
+kibana_version: 7.6.2
+
+nginx_image_name: "nginx:{{ nginx_version }}"
+nginx_version: 1.17.6
+
+configs_dict:
+  nginx.conf:
+    url: https://gitlab.com/api/v4/projects/_id/repository/files/nginx.conf/raw?ref=master
+    destination: /etc/nginx/nginx.conf
+  domain.conf:
+    url: https://gitlab.com/api/v4/projects/_id/repository/files/domain.com.conf/raw?ref=master
+    destination: /etc/nginx/conf.d/domain.com.conf
+
+gitlab_token:
+
+cert_loc: /home/ansible/ssl_backup/<insert folder here> # certs location on ansible control node
+
+elasticsearch_hosts: http://elasticsearch.domain.com:9200

@@ -1,0 +1,5 @@
+[KibanaServer]
+x.x.x.x
+
+[ElasticsearchServer]
+y.y.y.y

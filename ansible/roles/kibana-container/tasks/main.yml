@@ -1,0 +1,13 @@
+---
+- name: Create networks
+  include_tasks:
+    file: 'network.yml'
+
+- name: Create kibana container
+  include_tasks:
+    file: 'kibana.yml'
+
+- name: Create nginx container
+  include_tasks:
+    file: 'nginx.yml'
+...

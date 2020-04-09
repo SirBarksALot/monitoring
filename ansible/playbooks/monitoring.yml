@@ -1,0 +1,29 @@
+---
+- name: Setup kibana
+  hosts: KibanaServer
+  become: yes
+  roles:
+    - role: geerlingguy.pip
+      vars:
+        pip_install_packages:
+          - name: docker
+    - role: geerlingguy.docker
+      vars:
+        docker_users:
+          - ansible
+    - role: kibana-container
+
+- name: Setup elasticsearch
+  hosts: ElasticsearchServer
+  become: yes
+  roles:
+    - role: geerlingguy.pip
+      vars:
+        pip_install_packages:
+          - name: docker
+    - role: geerlingguy.docker
+      vars:
+        docker_users:
+          - ansible
+    - role: elasticsearch-container
+...

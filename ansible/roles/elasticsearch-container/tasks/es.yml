@@ -1,0 +1,12 @@
+---
+- name: Container up
+  docker_container:
+    name: elasticsearch
+    state: started
+    image: "{{ es_image_name }}"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    env:
+      discovery.type: single-node
+...

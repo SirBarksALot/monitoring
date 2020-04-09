@@ -1,0 +1,36 @@
+cache:
+  paths:
+    - inventory
+
+stages:
+  - .pre
+  - Manual playbook execution
+
+Ansible host Environment test:
+  stage: .pre
+  before_script:
+    - whoami 
+  script:
+    - python3 --version
+    - python --version
+    - ansible --version
+    - docker --version
+  tags:
+    - ansible-node-shell
+
+Manual playbook execution:
+  stage: Manual playbook execution
+  script:
+    - ansible-playbook $PLAYBOOK -i $INVENTORY
+  variables:
+    PLAYBOOK: ./ansible/playbooks/$playbook
+    INVENTORY: ./ansible/inventories/$inventory
+  only:
+    refs:
+      - web
+    variables:
+      - $playbook
+      - $inventory
+  tags:
+    - ansible-node-shell
+

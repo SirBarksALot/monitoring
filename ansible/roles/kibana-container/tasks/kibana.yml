@@ -1,0 +1,17 @@
+---
+- name: Kibana container up
+  docker_container:
+    name: kibana
+    state: started
+    image: "{{ kibana_image_name }}"
+    networks_cli_compatible: yes
+    ports:
+      - "9200:9200"
+    networks:
+      - name: "{{ internal_network }}"
+      - name: "{{ bridge_network }}"
+    env:
+      SERVER_NAME: "{{ server_name }}"
+      ELASTICSEARCH_HOSTS: "{{ elasticsearch_hosts }}"
+  register: kibana_status
+...

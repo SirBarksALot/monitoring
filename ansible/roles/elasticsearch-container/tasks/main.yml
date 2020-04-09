@@ -1,0 +1,5 @@
+---
+- name: Create elasticsearch container
+  include_tasks:
+    file: 'es.yml'
+...

@@ -1,0 +1,2 @@
+es_image_name: "elasticsearch:{{ es_version }}"
+es_version: 7.6.2

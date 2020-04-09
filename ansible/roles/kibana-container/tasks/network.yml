@@ -1,0 +1,14 @@
+---
+- name: Create internal network
+  docker_network:
+    name: "{{ internal_network }}"
+    state: present
+    internal: yes
+
+- name: Create bridge network
+  docker_network:
+    name: "{{ bridge_network }}"
+    state: present
+    internal: no
+    driver: bridge
+...

@@ -1,0 +1,11 @@
+nginx_dir_owner: root
+nginx_dir_loc: /etc/nginx
+files_dict:
+  conf.d: directory
+  ssl: directory
+remote_cert_loc: /etc/nginx/ssl/ # certs folder on target server
+
+internal_network: nginx-net
+bridge_network: host-net
+
+server_name: kibana

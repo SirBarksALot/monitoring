@@ -1,0 +1,56 @@
+---
+- name: Create dhparams
+  include_role:
+    name: create-dhparam
+
+- name: Create volumes directories
+  file:
+    owner: "{{ nginx_dir_owner }}"
+    group: "{{ nginx_dir_owner }}"
+    path: "{{ nginx_dir_loc }}/{{ item.key }}"
+    state: "{{ item.value }}"
+  loop: "{{ lookup('dict', files_dict) }}"
+
+- name: Supply configurations files
+  get_url:
+    url: "{{ item.value.url }}"
+    dest: "{{ item.value.destination }}"
+    force: yes
+    headers:
+      PRIVATE-TOKEN: "{{ gitlab_token }}"
+  loop: "{{ lookup('dict', configs_dict) }}"
+
+- name: Supply certificates
+  include_role:
+    name: sync-local-2-remote
+  vars:
+    local_folder: "{{ cert_loc }}"
+    remote_folder: "{{ remote_cert_loc }}"
+
+- name: Save kibana container status
+  set_fact:
+    kibana_is_running: "{{ kibana_status.ansible_facts.docker_container.State.Running }}"
+
+- name: Wait for kibana container to be up
+  wait_for:
+    timeout: 10
+
+- name: Nginx container up
+  docker_container:
+    name: nginx
+    state: started
+    image: "{{ nginx_image_name }}"
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/nginx/conf.d:/etc/nginx/conf.d
+      - /etc/nginx/ssl:/etc/nginx/ssl
+      - /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
+    networks_cli_compatible: yes
+    networks:
+      - name: "{{ internal_network }}"
+      - name: "{{ bridge_network }}"
+  when: kibana_is_running
+...

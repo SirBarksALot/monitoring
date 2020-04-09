@@ -1,0 +1,9 @@
+all:
+  hosts:
+  children:
+    KibanaServers:
+      hosts:
+        x.x.x.x
+    ElasticsearchServers:
+      hosts:
+        y.y.y.y
